@@ -1,0 +1,21 @@
+{
+  "name": "photoshare-cdk",
+  "version": "1.0.0",
+  "description": "PhotoShare AWS CDK Infrastructure",
+  "main": "bin/app.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/node": "22.x",
+    "aws-cdk": "2.x",
+    "typescript": "~5.6.0",
+    "source-map-support": "^0.5.21"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.x",
+    "constructs": "^10.0.0"
+  }
+}
