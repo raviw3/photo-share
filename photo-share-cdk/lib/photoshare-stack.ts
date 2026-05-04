@@ -364,6 +364,10 @@ export class PhotoShareStack extends cdk.Stack {
     const listener = alb.addListener('PhotoShareListener', {
       port: 80,
       open: true,
+      defaultAction: elbv2.ListenerAction.fixedResponse(503, {
+        contentType: 'text/plain',
+        messageBody: 'Service not yet deployed',
+      }),
     });
 
     // ECS Fargate Service
