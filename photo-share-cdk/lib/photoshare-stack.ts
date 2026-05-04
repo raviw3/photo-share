@@ -143,7 +143,7 @@ export class PhotoShareStack extends cdk.Stack {
     const mskCluster = new msk.CfnCluster(this, 'PhotoShareMskCluster', {
       clusterName: 'photoshare-kafka',
       kafkaVersion: '3.5.1',
-      numberOfBrokerNodes: 1,
+      numberOfBrokerNodes: 2,
       brokerNodeGroupInfo: {
         instanceType: 'kafka.t3.small',
         clientSubnets: [
