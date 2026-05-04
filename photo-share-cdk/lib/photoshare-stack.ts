@@ -68,7 +68,7 @@ export class PhotoShareStack extends cdk.Stack {
         requireSymbols: false,
         requireUppercase: false,
       },
-      accountRecovery: cognito.AccountRecovery.PHONE_ONLY_WITHOUT_MFA,
+      accountRecovery: cognito.AccountRecovery.NONE,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // safe to destroy in dev
     });
 
@@ -147,7 +147,8 @@ export class PhotoShareStack extends cdk.Stack {
       brokerNodeGroupInfo: {
         instanceType: 'kafka.t3.small',
         clientSubnets: [
-          vpc.privateSubnets[0].subnetId, // 1 broker → 1 subnet
+          vpc.privateSubnets[0].subnetId, // 1 broker → 2 subnets needed
+          vpc.privateSubnets[1].subnetId
         ],
         securityGroups: [mskSecurityGroup.securityGroupId],
         storageInfo: {
