@@ -367,28 +367,28 @@ export class PhotoShareStack extends cdk.Stack {
     });
 
     // ECS Fargate Service
-    const fargateService = new ecs.FargateService(this, 'PhotoShareFargateService', {
-      cluster,
-      taskDefinition,
-      desiredCount: 1,
-      assignPublicIp: false,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-      securityGroups: [ecsSecurityGroup],
-      healthCheckGracePeriod: cdk.Duration.seconds(120),
-    });
+//     const fargateService = new ecs.FargateService(this, 'PhotoShareFargateService', {
+//       cluster,
+//       taskDefinition,
+//       desiredCount: 1,
+//       assignPublicIp: false,
+//       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+//       securityGroups: [ecsSecurityGroup],
+//       healthCheckGracePeriod: cdk.Duration.seconds(120),
+//     });
 
-    listener.addTargets('PhotoShareTargetGroup', {
-      port: 8080,
-      protocol: elbv2.ApplicationProtocol.HTTP,
-      targets: [fargateService],
-      healthCheck: {
-        path: '/health',
-        interval: cdk.Duration.seconds(30),
-        timeout: cdk.Duration.seconds(5),
-        healthyHttpCodes: '200',
-      },
-      deregistrationDelay: cdk.Duration.seconds(30),
-    });
+//     listener.addTargets('PhotoShareTargetGroup', {
+//       port: 8080,
+//       protocol: elbv2.ApplicationProtocol.HTTP,
+//       targets: [fargateService],
+//       healthCheck: {
+//         path: '/health',
+//         interval: cdk.Duration.seconds(30),
+//         timeout: cdk.Duration.seconds(5),
+//         healthyHttpCodes: '200',
+//       },
+//       deregistrationDelay: cdk.Duration.seconds(30),
+//     });
 
     // =========================================================
     // 9. API Gateway HTTP API + Cognito JWT Authorizer
@@ -421,41 +421,41 @@ export class PhotoShareStack extends cdk.Stack {
     );
 
     // ALB integration — API Gateway routes all requests to ALB
-    const albIntegration = new apigwv2integrations.HttpAlbIntegration(
-      'AlbIntegration',
-      listener,
-      { secureServerName: alb.loadBalancerDnsName }
-    );
-
-    // Public routes — no auth required
-    httpApi.addRoutes({
-      path: '/auth/initiate',
-      methods: [apigwv2.HttpMethod.POST],
-      integration: albIntegration,
-      // No authorizer — public
-    });
-
-    httpApi.addRoutes({
-      path: '/auth/verify',
-      methods: [apigwv2.HttpMethod.POST],
-      integration: albIntegration,
-      // No authorizer — public
-    });
-
-    httpApi.addRoutes({
-      path: '/health',
-      methods: [apigwv2.HttpMethod.GET],
-      integration: albIntegration,
-      // No authorizer — ALB health check
-    });
-
-    // Protected catch-all route — requires Cognito JWT
-    httpApi.addRoutes({
-      path: '/{proxy+}',
-      methods: [apigwv2.HttpMethod.ANY],
-      integration: albIntegration,
-      authorizer,
-    });
+//     const albIntegration = new apigwv2integrations.HttpAlbIntegration(
+//       'AlbIntegration',
+//       listener,
+//       { secureServerName: alb.loadBalancerDnsName }
+//     );
+//
+//     // Public routes — no auth required
+//     httpApi.addRoutes({
+//       path: '/auth/initiate',
+//       methods: [apigwv2.HttpMethod.POST],
+//       integration: albIntegration,
+//       // No authorizer — public
+//     });
+//
+//     httpApi.addRoutes({
+//       path: '/auth/verify',
+//       methods: [apigwv2.HttpMethod.POST],
+//       integration: albIntegration,
+//       // No authorizer — public
+//     });
+//
+//     httpApi.addRoutes({
+//       path: '/health',
+//       methods: [apigwv2.HttpMethod.GET],
+//       integration: albIntegration,
+//       // No authorizer — ALB health check
+//     });
+//
+//     // Protected catch-all route — requires Cognito JWT
+//     httpApi.addRoutes({
+//       path: '/{proxy+}',
+//       methods: [apigwv2.HttpMethod.ANY],
+//       integration: albIntegration,
+//       authorizer,
+//     });
 
     // =========================================================
     // OUTPUTS — printed after cdk deploy, copy these values
