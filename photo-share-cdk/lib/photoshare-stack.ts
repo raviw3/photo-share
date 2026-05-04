@@ -83,12 +83,7 @@ export class PhotoShareStack extends cdk.Stack {
         custom: true,
         adminUserPassword: true,
       },
-      oAuth: {
-        flows: {
-          authorizationCodeGrant: false,
-          implicitCodeGrant: false,
-        },
-      },
+      disableOAuth: true,
       preventUserExistenceErrors: true,
     });
 
